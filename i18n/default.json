@@ -1,0 +1,15 @@
+﻿{
+  "nameTags.toggle.renderMonster": "Monster",
+  "nameTags.toggle.renderMonster.description": "Name tag render monster",
+  "nameTags.toggle.renderPet": "Pet",
+  "nameTags.toggle.renderPet.description": "Name tag render pet",
+  "nameTags.toggle.renderChild": "Child",
+  "nameTags.toggle.renderChild.description": "Name tag render child",
+  "nameTags.toggle.renderVillager": "Villager",
+  "nameTags.toggle.renderVillager.description": "Name tag render villager",
+  "nameTags.name": "Name",
+  "nameTags.hp": "HP",
+  "nameTags.damage": "Damage",
+  "nameTags.friendship": "Friendship",
+  "nameTags.daysOld": "Days old"
+}
