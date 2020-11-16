@@ -16,34 +16,46 @@ namespace NameTags.Framework.Gui
         {
             _config = ModEntry.GetInstance().Helper.ReadConfig<Config>();
             ToggleButton renderMonster = new ToggleButton(Get("nameTags.toggle.renderMonster"),
-                Get("nameTags.toggle.renderMonster.description"), _config.RenderMonster);
+                Get("nameTags.toggle.renderMonster.description"))
+            {
+                Toggled = _config.RenderMonster
+            };
             renderMonster.OnLeftClicked = () =>
             {
-                _config.RenderMonster = renderMonster.GetToggled();
+                _config.RenderMonster = renderMonster.Toggled;
                 Reload();
             };
 
             ToggleButton renderPet = new ToggleButton(Get("nameTags.toggle.renderPet"),
-                Get("nameTags.toggle.renderPet.description"), _config.RenderPet);
+                Get("nameTags.toggle.renderPet.description"))
+            {
+                Toggled = _config.RenderPet
+            };
             renderPet.OnLeftClicked = () =>
             {
-                _config.RenderPet = renderPet.GetToggled();
+                _config.RenderPet = renderPet.Toggled;
                 Reload();
             };
 
             ToggleButton renderChild = new ToggleButton(Get("nameTags.toggle.renderChild"),
-                Get("nameTags.toggle.renderChild.description"), _config.RenderChild);
+                Get("nameTags.toggle.renderChild.description"))
+            {
+                Toggled = _config.RenderChild
+            };
             renderChild.OnLeftClicked = () =>
             {
-                _config.RenderChild = renderChild.GetToggled();
+                _config.RenderChild = renderChild.Toggled;
                 Reload();
             };
 
             ToggleButton renderVillager = new ToggleButton(Get("nameTags.toggle.renderVillager"),
-                Get("nameTags.toggle.renderVillager.description"), _config.RenderVillager);
+                Get("nameTags.toggle.renderVillager.description"))
+            {
+                Toggled = _config.RenderVillager
+            };
             renderVillager.OnLeftClicked = () =>
             {
-                _config.RenderVillager = renderVillager.GetToggled();
+                _config.RenderVillager = renderVillager.Toggled;
                 Reload();
             };
             AddElementRange(renderMonster, renderPet, renderChild, renderVillager);
