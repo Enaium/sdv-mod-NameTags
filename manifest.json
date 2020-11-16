@@ -1,7 +1,7 @@
 ﻿{
   "Name": "NameTags",
   "Author": "Enaium",
-  "Version": "1.0.0",
+  "Version": "1.1.0",
   "Description": "Render name tags",
   "UniqueID": "Enaium.NameTags",
   "EntryDll": "NameTags.dll",
