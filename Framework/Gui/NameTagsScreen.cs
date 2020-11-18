@@ -10,61 +10,56 @@ namespace NameTags.Framework.Gui
 {
     public class NameTagsScreen : ScreenGui
     {
-        private Config _config;
-
         public NameTagsScreen()
         {
-            _config = ModEntry.GetInstance().Helper.ReadConfig<Config>();
             ToggleButton renderMonster = new ToggleButton(Get("nameTags.toggle.renderMonster"),
                 Get("nameTags.toggle.renderMonster.description"))
             {
-                Toggled = _config.RenderMonster
+                Toggled = ModEntry.Config.RenderMonster
             };
             renderMonster.OnLeftClicked = () =>
             {
-                _config.RenderMonster = renderMonster.Toggled;
-                Reload();
+                ModEntry.Config.RenderMonster = renderMonster.Toggled;
+                ModEntry.ConfigReload();
             };
 
             ToggleButton renderPet = new ToggleButton(Get("nameTags.toggle.renderPet"),
                 Get("nameTags.toggle.renderPet.description"))
             {
-                Toggled = _config.RenderPet
+                Toggled = ModEntry.Config.RenderPet
             };
             renderPet.OnLeftClicked = () =>
             {
-                _config.RenderPet = renderPet.Toggled;
-                Reload();
+                ModEntry.Config.RenderPet = renderPet.Toggled;
+                ModEntry.ConfigReload();
             };
 
             ToggleButton renderChild = new ToggleButton(Get("nameTags.toggle.renderChild"),
                 Get("nameTags.toggle.renderChild.description"))
             {
-                Toggled = _config.RenderChild
+                Toggled = ModEntry.Config.RenderChild
             };
             renderChild.OnLeftClicked = () =>
             {
-                _config.RenderChild = renderChild.Toggled;
-                Reload();
+                ModEntry.Config.RenderChild = renderChild.Toggled;
+                ModEntry.ConfigReload();
             };
 
             ToggleButton renderVillager = new ToggleButton(Get("nameTags.toggle.renderVillager"),
                 Get("nameTags.toggle.renderVillager.description"))
             {
-                Toggled = _config.RenderVillager
+                Toggled = ModEntry.Config.RenderVillager
             };
             renderVillager.OnLeftClicked = () =>
             {
-                _config.RenderVillager = renderVillager.Toggled;
-                Reload();
+                ModEntry.Config.RenderVillager = renderVillager.Toggled;
+                ModEntry.ConfigReload();
             };
-            AddElementRange(renderMonster, renderPet, renderChild, renderVillager);
-        }
-
-        public void Reload()
-        {
-            ModEntry.GetInstance().Helper.WriteConfig(_config);
-            ModEntry.Config = ModEntry.GetInstance().Helper.ReadConfig<Config>();
+            AddElementRange(renderMonster, renderPet, renderChild, renderVillager,
+                new Button(Get("nameTags.button.nameTagColor"), Get("nameTags.button.nameTagColor.description"))
+                {
+                    OnLeftClicked = () => { Game1.activeClickableMenu = new SettingColorScreen(); }
+                });
         }
 
         public string Get(string key)

@@ -25,6 +25,12 @@ namespace NameTags
             _instance = this;
         }
 
+        public static void ConfigReload()
+        {
+            GetInstance().Helper.WriteConfig(Config);
+            GetInstance().Helper.ReadConfig<Config>();
+        }
+
         public override void Entry(IModHelper helper)
         {
             Config = helper.ReadConfig<Config>();
@@ -39,7 +45,7 @@ namespace NameTags
             {
                 foreach (var variable in GetCharacters())
                 {
-                    string tag = $"{Helper.Translation.Get("nameTags.name")}:{variable.displayName}";
+                    string tag = $"{variable.displayName}";
                     if (variable is Monster monster)
                     {
                         if (monster.MaxHealth < monster.Health)
@@ -69,7 +75,9 @@ namespace NameTags
 
                     Vector2 screenLoc = variable.Position - new Vector2(Game1.viewport.X, Game1.viewport.Y) -
                                         new Vector2(variable.Sprite.SpriteWidth, variable.Sprite.SpriteHeight);
-                    FontUtils.Draw(e.SpriteBatch, tag, (int) screenLoc.X, (int) screenLoc.Y);
+                    Utility.drawTextWithShadow(e.SpriteBatch, tag, Game1.dialogueFont,
+                        new Vector2((int) screenLoc.X, (int) screenLoc.Y), ColorUtils.Instance.Get(Config.TextColor),
+                        1f, -1f, -1, -1, 0.0f);
                 }
             }
             catch (Exception exception)
