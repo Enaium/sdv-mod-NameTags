@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using EnaiumToolKit.Framework.Utils;
 using Microsoft.Xna.Framework;
@@ -28,7 +29,7 @@ namespace NameTags
         public static void ConfigReload()
         {
             GetInstance().Helper.WriteConfig(Config);
-            GetInstance().Helper.ReadConfig<Config>();
+            Config = GetInstance().Helper.ReadConfig<Config>();
         }
 
         public override void Entry(IModHelper helper)
@@ -45,7 +46,7 @@ namespace NameTags
             {
                 foreach (var variable in GetCharacters())
                 {
-                    string tag = $"{variable.displayName}";
+                    var tag = $"{variable.displayName}";
                     if (variable is Monster monster)
                     {
                         if (monster.MaxHealth < monster.Health)
@@ -60,21 +61,28 @@ namespace NameTags
                     {
                         tag += $" {Helper.Translation.Get("nameTags.friendship")}:{pet.friendshipTowardFarmer / 200}";
                     }
+                    else if (variable is Horse)
+                    {
+                    }
                     else if (variable is Child child)
                     {
                         tag += $" {Helper.Translation.Get("nameTags.daysOld")}:{child.daysOld}";
                     }
+                    else if (variable is Junimo junimo)
+                    {
+                        tag += $" {Helper.Translation.Get("nameTags.friendly")}:{junimo.friendly}";
+                    }
                     else
                     {
-                        if (Game1.player.friendshipData.TryGetValue(variable.name, out Friendship friendship))
+                        if (Game1.player.friendshipData.TryGetValue(variable.name, out var friendship))
                         {
                             tag +=
                                 $" {Helper.Translation.Get("nameTags.friendship")}:{(friendship?.Points ?? 0) / NPC.friendshipPointsPerHeartLevel}";
                         }
                     }
 
-                    Vector2 screenLoc = variable.Position - new Vector2(Game1.viewport.X, Game1.viewport.Y) -
-                                        new Vector2(variable.Sprite.SpriteWidth, variable.Sprite.SpriteHeight);
+                    var screenLoc = variable.Position - new Vector2(Game1.viewport.X, Game1.viewport.Y) -
+                                    new Vector2(variable.Sprite.SpriteWidth, variable.Sprite.SpriteHeight);
                     Utility.drawTextWithShadow(e.SpriteBatch, tag, Game1.dialogueFont,
                         new Vector2((int) screenLoc.X, (int) screenLoc.Y), ColorUtils.Instance.Get(Config.TextColor),
                         1f, -1f, -1, -1, 0.0f);
@@ -86,27 +94,29 @@ namespace NameTags
             }
         }
 
-        private NetCollection<NPC> GetCharacters()
+        private IEnumerable<NPC> GetCharacters()
         {
-            NetCollection<NPC> n = new NetCollection<NPC>();
+            var n = new NetCollection<NPC>();
             foreach (var variable in Game1.currentLocation.characters)
             {
                 if (Config.RenderMonster && variable is Monster)
                 {
                     n.Add(variable);
                 }
-                else if (variable is Horse horse)
-                {
-                }
                 else if (Config.RenderPet && variable is Pet)
+                {
+                    n.Add(variable);
+                }
+                else if (Config.RenderHorse && variable is Horse)
                 {
                     n.Add(variable);
                 }
                 else if (variable is TrashBear)
                 {
                 }
-                else if (variable is Junimo)
+                else if (Config.RenderJunimo && variable is Junimo)
                 {
+                    n.Add(variable);
                 }
                 else if (variable is JunimoHarvester)
                 {
@@ -115,7 +125,8 @@ namespace NameTags
                 {
                     n.Add(variable);
                 }
-                else if (Config.RenderVillager && !(variable is Monster))
+                else if (Config.RenderVillager && !(variable is Monster) && !(variable is Pet) &&
+                         !(variable is Horse) && !(variable is Junimo) && !(variable is Child))
                 {
                     n.Add(variable);
                 }

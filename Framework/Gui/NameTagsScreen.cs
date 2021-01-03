@@ -34,6 +34,17 @@ namespace NameTags.Framework.Gui
                 ModEntry.ConfigReload();
             };
 
+            ToggleButton renderHorse = new ToggleButton(Get("nameTags.toggle.renderHorse"),
+                Get("nameTags.toggle.renderHorse.description"))
+            {
+                Toggled = ModEntry.Config.RenderHorse
+            };
+            renderHorse.OnLeftClicked = () =>
+            {
+                ModEntry.Config.RenderHorse = renderHorse.Toggled;
+                ModEntry.ConfigReload();
+            };
+
             ToggleButton renderChild = new ToggleButton(Get("nameTags.toggle.renderChild"),
                 Get("nameTags.toggle.renderChild.description"))
             {
@@ -55,7 +66,18 @@ namespace NameTags.Framework.Gui
                 ModEntry.Config.RenderVillager = renderVillager.Toggled;
                 ModEntry.ConfigReload();
             };
-            AddElementRange(renderMonster, renderPet, renderChild, renderVillager,
+
+            ToggleButton renderJunimo = new ToggleButton(Get("nameTags.toggle.renderJunimo"),
+                Get("nameTags.toggle.renderJunimo.description"))
+            {
+                Toggled = ModEntry.Config.RenderJunimo
+            };
+            renderJunimo.OnLeftClicked = () =>
+            {
+                ModEntry.Config.RenderJunimo = renderJunimo.Toggled;
+                ModEntry.ConfigReload();
+            };
+            AddElementRange(renderMonster, renderPet, renderHorse, renderChild, renderVillager, renderJunimo,
                 new Button(Get("nameTags.button.nameTagColor"), Get("nameTags.button.nameTagColor.description"))
                 {
                     OnLeftClicked = () => { Game1.activeClickableMenu = new SettingColorScreen(); }
